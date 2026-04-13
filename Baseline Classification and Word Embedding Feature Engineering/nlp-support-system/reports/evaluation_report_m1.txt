@@ -1,0 +1,40 @@
+
+==================================================
+TF-IDF + Logistic Regression Evaluation
+==================================================
+Accuracy: 0.8485
+
+                       precision    recall  f1-score   support
+
+               Access       0.90      0.88      0.89      1425
+Administrative rights       0.63      0.83      0.71       352
+           HR Support       0.90      0.84      0.87      2183
+             Hardware       0.86      0.80      0.83      2724
+     Internal Project       0.79      0.93      0.86       424
+        Miscellaneous       0.80      0.86      0.83      1412
+             Purchase       0.92      0.90      0.91       493
+              Storage       0.84      0.93      0.88       555
+
+             accuracy                           0.85      9568
+            macro avg       0.83      0.87      0.85      9568
+         weighted avg       0.85      0.85      0.85      9568
+
+==================================================
+Word2Vec + Logistic Regression Evaluation
+==================================================
+Accuracy: 0.7425
+
+                       precision    recall  f1-score   support
+
+               Access       0.78      0.79      0.79      1425
+Administrative rights       0.40      0.78      0.53       352
+           HR Support       0.82      0.75      0.78      2183
+             Hardware       0.80      0.61      0.70      2724
+     Internal Project       0.63      0.88      0.73       424
+        Miscellaneous       0.69      0.76      0.72      1412
+             Purchase       0.85      0.90      0.88       493
+              Storage       0.73      0.91      0.81       555
+
+             accuracy                           0.74      9568
+            macro avg       0.71      0.80      0.74      9568
+         weighted avg       0.76      0.74      0.74      9568
