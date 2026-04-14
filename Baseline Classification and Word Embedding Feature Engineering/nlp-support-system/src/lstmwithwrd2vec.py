@@ -1,9 +1,12 @@
+import os
+
 import torch
 import torch.nn as nn
 import matplotlib.pyplot as plt
-from data_pipline import load_and_preprocess_data, tokenize_and_preprocess, vectorize_text ,DATA_PATH
+from data_pipline import BASE_DIR, load_and_preprocess_data, tokenize_and_preprocess, vectorize_text ,DATA_PATH
 from gensim.models import Word2Vec
 import numpy as np
+from sklearn.metrics import classification_report, accuracy_score
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -61,91 +64,110 @@ class RNN(nn.Module):
         out = self.fc(out[:, -1, :])         # Take last time step 
         return out
 
-print(f"x_train shape: {np.array(x_train).shape}") 
+LSTM_MODEL_PATH = os.path.join(BASE_DIR, "models", "lstm_model.pkl")
+REPORT_PATH           = os.path.join(BASE_DIR, "reports", "evaluation_report_m2.txt")
+
+if __name__ == "__main__":
+    print(f"x_train shape: {np.array(x_train).shape}") 
 
 
-model     = RNN(input_size, hidden_size, layers, output_size).to(device)
-criterion = nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+    model     = RNN(input_size, hidden_size, layers, output_size).to(device)
+    criterion = nn.CrossEntropyLoss()
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
-print(model)
+    print(model)
 
-train_losses = []
-train_accs   = []
-BATCH_SIZE = 1024  # Process one email at a time
-for epoch in range(20):
-    model.train()
-    total_loss    = 0
-    correct       = 0
+    train_losses = []
+    train_accs   = []
+    BATCH_SIZE = 1024  # Process one email at a time
+    for epoch in range(20):
+        model.train()
+        total_loss    = 0
+        correct       = 0
 
-    for i in range(0, x_train_tensor.size(0), BATCH_SIZE):       # ✅ Loop over emails
-        
-        x_batch = x_train_tensor[i:i+BATCH_SIZE].to(device)      # (batch, 1, 100)
-        y_batch = torch.tensor(
-            y_train_encoded[i:i+BATCH_SIZE], dtype=torch.long
-        ).to(device)
-        
-        if x_batch.dim() == 2:
-            x_batch = x_batch.unsqueeze(1)   # (batch, 100) → (batch, 1, 100)
-        x_batch = x_batch.to(device)
-        
-        optimizer.zero_grad()
-
-        # ✅ Single forward pass per email (averaged vector)
-        output = model(x_batch)      # output: (batch_size, output_size)
-        loss  = criterion(output, y_batch)  # NLLLoss expects (batch_size, output_size) and (batch_size)
-
-        loss.backward()
-        optimizer.step()
-
-        total_loss += loss.item()
-        correct    += (output.argmax(dim=1) == y_batch).sum().item()  # Compare predicted vs true labels
-
-    avg_loss = total_loss / (x_train_tensor.size(0) / BATCH_SIZE)
-    accuracy = correct   / x_train_tensor.size(0) * 100
-    train_losses.append(avg_loss)
-    train_accs.append(accuracy) 
-
-    print(f"Epoch {epoch+1:02d} | Loss: {avg_loss:.4f} | Accuracy: {accuracy:.2f}%")
-
-def evaluate(model, x_tensor, y_encoded, batch_size=512):
-    model.eval()
-    correct = 0
-
-    with torch.no_grad():
-        for i in range(0, x_tensor.size(0), batch_size):
-            x_batch = x_tensor[i:i+batch_size].to(device)
+        for i in range(0, x_train_tensor.size(0), BATCH_SIZE):       # ✅ Loop over emails
+            
+            x_batch = x_train_tensor[i:i+BATCH_SIZE].to(device)      # (batch, 1, 100)
             y_batch = torch.tensor(
-                y_encoded[i:i+batch_size], dtype=torch.long
+                y_train_encoded[i:i+BATCH_SIZE], dtype=torch.long
             ).to(device)
-            output   = model(x_batch)
-            correct += (output.argmax(dim=1) == y_batch).sum().item()
+            
+            if x_batch.dim() == 2:
+                x_batch = x_batch.unsqueeze(1)   # (batch, 100) → (batch, 1, 100)
+            x_batch = x_batch.to(device)
+            
+            optimizer.zero_grad()
 
-    return correct / x_tensor.size(0) * 100
+            # ✅ Single forward pass per email (averaged vector)
+            output = model(x_batch)      # output: (batch_size, output_size)
+            loss  = criterion(output, y_batch)  # NLLLoss expects (batch_size, output_size) and (batch_size)
 
+            loss.backward()
+            optimizer.step()
 
-epochs = range(1, len(train_losses) + 1)
+            total_loss += loss.item()
+            correct    += (output.argmax(dim=1) == y_batch).sum().item()  # Compare predicted vs true labels
 
-train_acc = evaluate(model, x_train_tensor, y_train_encoded)
-test_acc = evaluate(model, x_test_tensor,  y_test_encoded)
-print(f"\nFinal Train Accuracy : {train_acc:.2f}%")
-print(f"Final Test  Accuracy : {test_acc:.2f}%")
+        avg_loss = total_loss / (x_train_tensor.size(0) / BATCH_SIZE)
+        accuracy = correct   / x_train_tensor.size(0) * 100
+        train_losses.append(avg_loss)
+        train_accs.append(accuracy) 
 
+        print(f"Epoch {epoch+1:02d} | Loss: {avg_loss:.4f} | Accuracy: {accuracy:.2f}%")
 
-# ── Plot ──────────────────────────────────────────────────────────────────────
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
+    def evaluate(model, x_tensor, y_encoded, batch_size=512):
+        model.eval()
+        correct = 0
 
-ax1.plot(range(1, 21), train_losses, marker='o', color='blue')
-ax1.set_xlabel("Epoch")
-ax1.set_ylabel("Loss")
-ax1.set_title("Training Loss")
-ax1.grid(True)
+        with torch.no_grad():
+            for i in range(0, x_tensor.size(0), batch_size):
+                x_batch = x_tensor[i:i+batch_size].to(device)
+                y_batch = torch.tensor(
+                    y_encoded[i:i+batch_size], dtype=torch.long
+                ).to(device)
+                output   = model(x_batch)
+                correct += (output.argmax(dim=1) == y_batch).sum().item()
 
-ax2.plot(epochs,train_accs, marker='o', color='green')
-ax2.set_xlabel("Epoch")
-ax2.set_ylabel("Accuracy (%)")
-ax2.set_title("Training Accuracy")
-ax2.grid(True)
+        return correct / x_tensor.size(0) * 100
 
-plt.tight_layout()
-plt.show()
+    epochs = range(1, len(train_losses) + 1)
+
+    train_acc = evaluate(model, x_train_tensor, y_train_encoded)
+    test_acc = evaluate(model, x_test_tensor,  y_test_encoded)
+    print(f"\nFinal Train Accuracy : {train_acc:.2f}%")
+    print(f"Final Test  Accuracy : {test_acc:.2f}%")
+    arr=[]
+    for idx, label in idx_to_label.items():
+        arr.append(label)
+    report = classification_report(y_test_encoded, model(x_test_tensor.to(device)).argmax(dim=1).cpu(), target_names=arr)
+    print(f"Classification Report:\n{report}")
+    
+    with open(REPORT_PATH, 'a') as f:  # 'a' = append so both reports saved
+        f.write(f"\n{'='*50}\n")
+        f.write(f"LSTM Model Evaluation\n")
+        f.write(f"{'='*50}\n")
+        f.write(f"Accuracy: {test_acc:.4f}\n\n")
+        f.write(report)
+    print(f"✅ Report saved to: {REPORT_PATH}")
+
+    # ── Plot ──────────────────────────────────────────────────────────────────────
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
+
+    ax1.plot(range(1, 21), train_losses, marker='o', color='blue')
+    ax1.set_xlabel("Epoch")
+    ax1.set_ylabel("Loss")
+    ax1.set_title("Training Loss")
+    ax1.grid(True)
+
+    ax2.plot(epochs,train_accs, marker='o', color='green')
+    ax2.set_xlabel("Epoch")
+    ax2.set_ylabel("Accuracy (%)")
+    ax2.set_title("Training Accuracy")
+    ax2.grid(True)
+
+    plt.tight_layout()
+    plt.show()
+    
+    print(f"✅ Saving model to: {LSTM_MODEL_PATH}")
+    torch.save(model.state_dict(), LSTM_MODEL_PATH)
+    
