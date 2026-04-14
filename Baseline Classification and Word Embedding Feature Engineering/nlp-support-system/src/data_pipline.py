@@ -2,9 +2,9 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, accuracy_score
 import nltk
-nltk.download('stopwords')
-nltk.download('punkt_tab')
-nltk.download('wordnet')
+#nltk.download('stopwords')
+#nltk.download('punkt_tab')
+#nltk.download('wordnet')
 from nltk.stem import PorterStemmer, WordNetLemmatizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
@@ -15,6 +15,7 @@ import numpy as np
 from gensim.models import Word2Vec
 import pickle
 import os
+
 
 BASE_DIR              = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_PATH             = os.path.join(BASE_DIR, "data", "all_tickets_processed_improved_v3.csv")
@@ -85,9 +86,9 @@ def vectorize_text(X, y, is_TFIDF=True, word2vec_model=None):
         X_test  = vectorizer.transform(X_test)
         
         # ✅ Correct path with filename
-        with open(TFIDF_VECTORIZER_PATH, 'wb') as f:
+        '''with open(TFIDF_VECTORIZER_PATH, 'wb') as f:
             pickle.dump(vectorizer, f)
-        print(f"✅ TF-IDF Vectorizer saved to: {TFIDF_VECTORIZER_PATH}")
+        print(f"✅ TF-IDF Vectorizer saved to: {TFIDF_VECTORIZER_PATH}")'''
         
         return X_train, X_test, y_train, y_test
     
