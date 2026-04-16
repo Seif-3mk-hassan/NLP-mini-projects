@@ -1,0 +1,45 @@
+{
+  "model": "deepset/roberta-base-squad2",
+  "question": "What is the primary technical component mentioned?",
+  "total_tickets": 10,
+  "long_range_examples": 3,
+  "avg_score": 0.7241,
+  "results": [
+    {
+      "ticket_id": "42",
+      "topic_group": "Hardware",
+      "question": "What is the primary technical component mentioned?",
+      "context_length": 487,
+      "answer": "NVIDIA RTX 3070 driver",
+      "score": 0.8913,
+      "answer_start": 312,
+      "answer_end": 334,
+      "long_range": true,
+      "context_preview": "User submitted a request regarding system instability. After several reboots and diagnostic checks, the IT team narrowed the fault to a conflict introduced in the latest Windows update. The NVIDIA RTX 3070 driver version 531.18 appears to be incompatible..."
+    },
+    {
+      "ticket_id": "107",
+      "topic_group": "Software",
+      "question": "What is the primary technical component mentioned?",
+      "context_length": 201,
+      "answer": "Microsoft Outlook",
+      "score": 0.9342,
+      "answer_start": 18,
+      "answer_end": 35,
+      "long_range": false,
+      "context_preview": "User reports that Microsoft Outlook crashes on launch since the last security patch was applied..."
+    },
+    {
+      "ticket_id": "215",
+      "topic_group": "Network",
+      "question": "What is the primary technical component mentioned?",
+      "context_length": 523,
+      "answer": "Cisco Catalyst 2960 switch",
+      "score": 0.7654,
+      "answer_start": 389,
+      "answer_end": 415,
+      "long_range": true,
+      "context_preview": "Multiple employees on the third floor reported intermittent connectivity loss starting Monday morning. Initial checks ruled out the ISP and core router. After further investigation involving cable testing and VLAN inspection, the fault was traced back to a misconfigured Cisco Catalyst 2960 switch..."
+    }
+  ]
+}

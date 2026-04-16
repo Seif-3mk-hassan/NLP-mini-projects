@@ -1,0 +1,129 @@
+{
+  "model": "deepset/roberta-base-squad2",
+  "question": "what is the department should this ticket be assigned to ?",
+  "total_tickets": 10,
+  "long_range_examples": 2,
+  "avg_score": 0.0548,
+  "results": [
+    {
+      "ticket_id": "0",
+      "topic_group": "Access",
+      "question": "what is the department should this ticket be assigned to ?",
+      "context_length": 475,
+      "answer": "administrators",
+      "score": 0.0259,
+      "answer_start": 198,
+      "answer_end": 212,
+      "long_range": true,
+      "context_preview": "check activity for client account wednesday october pm undeliverable expire today has failed these groups communication failure occurred during please later problem continues diagnostic information administrators generating remote returned recipient rejected denied return path ode msg ref tower orig"
+    },
+    {
+      "ticket_id": "1",
+      "topic_group": "HR Support",
+      "question": "what is the department should this ticket be assigned to ?",
+      "context_length": 724,
+      "answer": "analyst",
+      "score": 0.1056,
+      "answer_start": 88,
+      "answer_end": 95,
+      "long_range": false,
+      "context_preview": "action required leave the sent friday re action required leave update ll monday have be analyst en sent friday re action required leave hi leave reason for performing updates have laptop with ll updates weekend or monday latest thank you analyst en sent friday action required leave hello our indicat"
+    },
+    {
+      "ticket_id": "2",
+      "topic_group": "Internal Project",
+      "question": "what is the department should this ticket be assigned to ?",
+      "context_length": 848,
+      "answer": "christmas party project codes",
+      "score": 0.0015,
+      "answer_start": 0,
+      "answer_end": 29,
+      "long_range": false,
+      "context_preview": "christmas party project codes july pm christmas party codes hi please pm code party thanks accounts receivable lead july pm re christmas party codes hi please pm party code thanks july pm christmas party codes good afternoon writing regards codes by location christmas party agreement commercial code"
+    },
+    {
+      "ticket_id": "3",
+      "topic_group": "Miscellaneous",
+      "question": "what is the department should this ticket be assigned to ?",
+      "context_length": 224,
+      "answer": "management",
+      "score": 0.0114,
+      "answer_start": 37,
+      "answer_end": 47,
+      "long_range": false,
+      "context_preview": "create new list for bod applications management wednesday create dear please create called spirit please notice contain individuals please make allowed fit please also make entering per please automatically added thanks head"
+    },
+    {
+      "ticket_id": "4",
+      "topic_group": "Administrative rights",
+      "question": "what is the department should this ticket be assigned to ?",
+      "context_length": 239,
+      "answer": "employed",
+      "score": 0.0002,
+      "answer_start": 146,
+      "answer_end": 154,
+      "long_range": false,
+      "context_preview": "data profile does not reflect accurately sent monday data hi had look imported data says employed since however dec hire date but since until was employed for years can be also represented well would like avoid incorrect information thanks"
+    },
+    {
+      "ticket_id": "5",
+      "topic_group": "Access",
+      "question": "what is the department should this ticket be assigned to ?",
+      "context_length": 78,
+      "answer": "engineer",
+      "score": 0.1756,
+      "answer_start": 70,
+      "answer_end": 78,
+      "long_range": false,
+      "context_preview": "reset password for wednesday pm please hello please user best regards engineer"
+    },
+    {
+      "ticket_id": "6",
+      "topic_group": "HR Support",
+      "question": "what is the department should this ticket be assigned to ?",
+      "context_length": 84,
+      "answer": "sonar access",
+      "score": 0.0736,
+      "answer_start": 0,
+      "answer_end": 12,
+      "long_range": false,
+      "context_preview": "sonar access for instance sonar dear please provide sonar instance name best regards"
+    },
+    {
+      "ticket_id": "7",
+      "topic_group": "Administrative rights",
+      "question": "what is the department should this ticket be assigned to ?",
+      "context_length": 88,
+      "answer": "win updates",
+      "score": 0.0,
+      "answer_start": 19,
+      "answer_end": 30,
+      "long_range": false,
+      "context_preview": "fatal error during win updates called saying during updates out she received fatal error"
+    },
+    {
+      "ticket_id": "8",
+      "topic_group": "Miscellaneous",
+      "question": "what is the department should this ticket be assigned to ?",
+      "context_length": 87,
+      "answer": "thank",
+      "score": 0.1521,
+      "answer_start": 82,
+      "answer_end": 87,
+      "long_range": false,
+      "context_preview": "please change oracle the career for to be please change hi assigned please assign thank"
+    },
+    {
+      "ticket_id": "9",
+      "topic_group": "Hardware",
+      "question": "what is the department should this ticket be assigned to ?",
+      "context_length": 244,
+      "answer": "director",
+      "score": 0.0019,
+      "answer_start": 236,
+      "answer_end": 244,
+      "long_range": true,
+      "context_preview": "scam wednesday pm scam hi possible add persona addresses configuration unfortunately attached has forged envelope which areal authority want best which appears although by hosted by free hosting based mexico thanks scam attached thanks director"
+    }
+  ]
+}
